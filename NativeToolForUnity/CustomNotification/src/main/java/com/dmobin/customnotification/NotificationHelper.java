@@ -1,9 +1,15 @@
-package com.dmobin.nativetools;
+package com.dmobin.customnotification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.dmobin.customnotification.R;
+import com.unity3d.player.UnityPlayer;
 
 public class NotificationHelper {
     public static final String CHANNEL_ID = "TEST_NOTIFICATION_CHANNEL";
@@ -19,6 +25,20 @@ public class NotificationHelper {
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    private static Context getContext() {
+        return UnityPlayer.currentActivity;
+    }
+
+    public static void showNotification(String title, String message) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "YOUR_CHANNEL_ID")
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
+        notificationManager.notify(100, builder.build());
     }
 
 }

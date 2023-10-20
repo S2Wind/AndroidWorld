@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.RemoteViews;
 
 public class MainActivity extends AppCompatActivity {
+    NotificationHelper notificationHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,69 +35,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RemoteViews customView = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        customView.setTextViewText(R.id.notification_text, "Your custom text here");
-
-// Set up the play button PendingIntent
-        Intent playIntent = new Intent(this, PlayButtonReceiver.class); // The component that should handle the play button's action
-        PendingIntent playPendingIntent = PendingIntent.getBroadcast(this, 0, playIntent, FLAG_IMMUTABLE);
-        customView.setOnClickPendingIntent(R.id.play_button, playPendingIntent);
+        Button noticustomButton = findViewById(R.id.button2);
+        noticustomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowCustomNotification(v);
+            }
+        });
     }
 
     public void ShowNotification(View view) {
-        NotificationHelper.createNotificationChannel(this);
-        sendTestNotification();
+        Log.d("Testing", "ShowNotification: ");
+        notificationHelper = new NotificationHelper(this,"TEST_NOTIFICATION_CHANNEL","Test Notification",NotificationManager.IMPORTANCE_DEFAULT,"This is a test notification channel");
+        notificationHelper.pushNotification("Test Notification","This is a test notification",R.drawable.baseline_notifications_24,0x88FF0000 ,null , BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background),0);
     }
     public void ShowCustomNotification(View view)
     {
-        NotificationHelper.createNotificationChannel(this);
-        sendCustomNotification();
-    }
-
-    private void sendTestNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)  // Replace with your icon
-                .setContentTitle("Test Notification")
-                .setContentText("This is a test notification")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.d("Notification", "Request admin!");
-            return;
-        }
-        Log.d("Notification", "Normal Notification");
-        notificationManager.notify(100, builder.build());  // '100' is a notification ID, it can be any unique integer
-    }
-
-    private void sendCustomNotification() {
-        RemoteViews customView = new RemoteViews(getPackageName(), R.layout.custom_notification);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setCustomContentView(customView)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Log.d("Notification", "Request admin!");
-            return;
-        }
-        Log.d("Notification", "Custom Notification");
-        notificationManager.notify(200, builder.build());
+        notificationHelper = new NotificationHelper(this,"TEST_NOTIFICATION_CHANNEL","Test Notification",NotificationManager.IMPORTANCE_DEFAULT,"This is a test notification channel");
+        notificationHelper.pushCustomNotification("Test Notification","This is a test notification",R.drawable.baseline_notifications_24,0x88FF0000 ,null , BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background),0);
     }
 
 }

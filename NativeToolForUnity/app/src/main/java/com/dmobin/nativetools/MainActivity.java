@@ -27,32 +27,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button notiButton = findViewById(R.id.noti);
-        notiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowNotification(v);
-            }
-        });
-
-        Button noticustomButton = findViewById(R.id.button2);
-        noticustomButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowCustomNotification(v);
-            }
-        });
     }
-
-    public void ShowNotification(View view) {
-        Log.d("Testing", "ShowNotification: ");
-        notificationHelper = new NotificationHelper(this,"TEST_NOTIFICATION_CHANNEL","Test Notification",NotificationManager.IMPORTANCE_DEFAULT,"This is a test notification channel");
-        notificationHelper.pushNotification("Test Notification","This is a test notification",R.drawable.baseline_notifications_24,0x88FF0000 ,null , BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background),0);
-    }
-    public void ShowCustomNotification(View view)
-    {
-        notificationHelper = new NotificationHelper(this,"TEST_NOTIFICATION_CHANNEL","Test Notification",NotificationManager.IMPORTANCE_DEFAULT,"This is a test notification channel");
-        notificationHelper.pushCustomNotification("Test Notification","This is a test notification",R.drawable.baseline_notifications_24,0x88FF0000 ,null , BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background),0);
-    }
-
 }

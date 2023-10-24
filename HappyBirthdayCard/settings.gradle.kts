@@ -13,7 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NativeTools"
-include ':app'
-include ':CustomNotification'
-include ':SpeechToText'
+rootProject.name = "HappyBirthdayCard"
+include(":app")
+include(":mylibrary")

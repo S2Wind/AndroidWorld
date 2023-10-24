@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    namespace 'com.dmobin.customnotification'
-    compileSdk 34
+    namespace 'com.dmobin.speechtotext'
+    compileSdk 33
 
     defaultConfig {
         minSdk 22
@@ -26,25 +26,10 @@ android {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
-    implementation files('libs\\classes.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
-//task to delete the old jar
-task deleteOldJar(type: Delete) {
-    delete 'release/CustomNotification.jar'
-}
-
-//task to export content as jar
-task exportJar(type: Copy) {
-    from('build/intermediates/aar_main_jar/release/')
-    into('release/')
-    include('classes.jar')
-    rename('classes.jar', 'CustomNotification.jar')
-}
-
-exportJar.dependsOn(deleteOldJar, build)
